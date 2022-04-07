@@ -1,20 +1,18 @@
 const express = require('express');
-const req = require('express/lib/request');
-const res = require('express/lib/response');
 const user = express.Router();
 const db = require('../config/database');
 const jwt = require('jsonwebtoken');
 
-user.post("/singin", async(req, res, next) => {
+user.post("/signin", async(req, res, next) => {
     const { user_name, user_mail, user_password } = req.body
 
     if (user_name && user_mail && user_password) {
-        let query = "INSERT INTO user (user_name, user_mail, user_password) "
+        let query = "INSERT INTO user (user_name, user_mail, user_password) ";
         query += `VALUES ('${user_name}', '${user_mail}', '${user_password}')`;
         const rows = await db.query(query);
 
         if (rows.affectedRows == 1) {
-            return res.status(201).json({ code: 201, message: "Usuario registrado correctamente" })
+            return res.status(201).json({ code: 201, message: "Usuario registrado correctamente" });
         }
         return res.status(500).json({ code: 500, message: "Ocurrio un error" });
     }
